@@ -1,0 +1,213 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Adjusting container to allow scrolling in the main content */
+.container {
+    display: flex;
+    min-height: 100vh; /* Ensures the container fills the viewport height */
+    overflow: hidden; /* Prevents unwanted scrolling on the container itself */
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 250px;
+    background-color: #0b3d91; /* Dark blue */
+    color: #ffffff;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transition: width 0.3s; /* Smooth transition for expanded sidebar */
+}
+
+/* Logo styling */
+.logo {
+    text-align: center;
+    padding: 20px 0; /* Adjusted padding for a cleaner look */
+    background-color: #074079; /* Slightly darker shade for the logo section */
+}
+
+.responsive-logo {
+    width: 60%;
+    max-width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Sidebar menu styling */
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.menu a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 15px 20px;
+    display: block;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.menu a:hover {
+    background-color: #062c6f; /* Darker blue on hover */
+    padding-left: 24px; /* Subtle indent on hover */
+    border-radius: 4px;
+    border-left: 4px solid #ffdd00; /* Highlight color for active item */
+}
+
+/* Active link styling */
+.menu .active {
+    background-color: #074079; /* Active background */
+    padding-left: 24px;
+    border-left: 4px solid #ffdd00; /* Left border highlight */
+}
+
+/* Sidebar footer (optional) */
+.sidebar-footer {
+    padding: 15px 20px;
+    background-color: #002d62;
+    text-align: center;
+    font-size: 14px;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: auto;
+}
+
+/* Main content styling */
+.main-content {
+    margin-left: 250px; /* Same as sidebar width */
+    padding: 40px;
+    flex-grow: 1;
+    background-color: #ffffff;
+    overflow-y: auto; /* Enable scrolling in the main content */
+}
+
+
+/* Download button */
+#downloadExcelBtn {
+    float: right;
+    background-color: #0b3d91;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#downloadExcelBtn:hover {
+    background-color: #074079;
+}
+
+
+/* General form container styling */
+.form-container {
+    background: #ffffff;
+    padding: 30px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Custom label styling */
+.custom-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #0b3d91;
+}
+
+/* Custom file input styling */
+.custom-file-input,
+.custom-date-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+/* Submit button styling */
+.submit-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background-color: #0b3d91;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #074079;
+}
+
+/* Loading spinner container styling */
+#loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Spinner animation styling */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #0b3d91;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Spinner animation keyframes */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Spinner text styling */
+#loading-spinner p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Narrower sidebar on small screens */
+    }
+    .main-content {
+        margin-left: 200px;
+    }
+}
+

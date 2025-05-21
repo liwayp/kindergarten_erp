@@ -3,6 +3,14 @@ from product.models import Products
 from user.models import Users
 
 class Meals(models.Model):
+    type_of_meal=[
+
+        (1, "breakfast"),
+        (2, "lunch"),
+        (3, "snack")
+    ]
+    
+    type=models.CharField(choices=type_of_meal)
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=100, null=True, blank=True)
     created_by = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, blank=True)

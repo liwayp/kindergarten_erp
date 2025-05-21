@@ -1,0 +1,99 @@
+{%extends 'base.html'%}
+
+
+{% block css %}
+<style>
+    h2 {
+        text-align: center;
+        color: #111827;
+        margin-bottom: 24px;
+        font-size: 1.8rem;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        padding: 30px 40px;
+    }
+
+    button.btn-block {
+        padding: 12px;
+        font-weight: 600;
+    }
+</style>
+{% endblock css %}
+
+
+
+
+
+{%block content%}
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
+        <i class="fas fa-chart-pie mr-1"></i>
+        Sales
+      </h3>
+      <div class="card-tools">
+        <ul class="nav nav-pills ml-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+          </li>
+        </ul>
+      </div>
+    </div><!-- /.card-header -->
+    <div class="card-body">
+      <div class="tab-content p-0">
+        <!-- Morris chart - Sales -->
+        <div class="chart tab-pane active" id="revenue-chart"
+             style="position: relative; height: 300px;">
+            <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+         </div>
+        <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+          <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+        </div>
+      </div>
+    </div><!-- /.card-body -->
+  </div>
+{%endblock content%}
+
+{% block main %}
+<div class="card" style="margin: 40px auto; max-width: 480px;">
+    <h2 class="text-center">Добавить продукт</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_name">Название</label>
+            <input type="text" class="form-control" name="name" id="id_name" placeholder="Например: Молоко">
+        </div>
+
+        <div class="form-group">
+            <label for="id_unit">Единица измерения</label>
+            <select name="unit" id="id_unit" class="form-control">
+                <option value="л">Литры</option>
+                <option value="кг">Килограммы</option>
+                <option value="шт">Штуки</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="id_minimum_threshold">Минимальный порог</label>
+            <input type="number" step="0.01" name="minimum_threshold" id="id_minimum_threshold" class="form-control" placeholder="Например: 10.00">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Сохранить продукт</button>
+    </form>
+</div>
+{% endblock main %}
+
+{%block js%}
+{%endblock js%}
