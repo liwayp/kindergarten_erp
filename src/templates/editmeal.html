@@ -1,0 +1,71 @@
+{%extends 'base.html'%}
+
+{% block css %}
+<style>
+    .bodyyy {
+        font-family: sans-serif;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 12px;
+      }
+      h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+      label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+      .buttonn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      buttonn:hover {
+        background: #0056b3;
+      }
+</style>
+{% endblock css %}
+
+{%block content%}
+{%endblock content%}
+
+
+{% block main %}
+<body class="bodyyy">
+    <h2>Edit product {{ product.name }}</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="buttonn",type="submit">Save changes</button>
+    </form>
+    <br>
+    <a href="{% url 'product_list' %}">⬅ Back to list</a>
+</body>
+{% endblock main %}
+
+{%block js%}
+{%endblock js%}
+
+
+
+
+
+
+
+

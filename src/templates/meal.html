@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+  .bodyy {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f7f7f7;
+    padding: 40px;
+  }
+  .container {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    padding: 60px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  .h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+    color: #444;
+  }
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
+  }
+  .ingredient-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  .ingredient-row > div {
+    flex: 1;
+  }
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .btn-secondary {
+    background-color: #ccc;
+    color: black;
+    margin-left: 10px;
+  }
+  .form-section {
+    margin-bottom: 40px;
+  }
+  .form-section h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #555;
+  }
+  .small {
+    color: #888;
+    font-size: 12px;
+  }
+  .ingredient-header {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+  }
+  .font-weight-bold {
+    font-weight: bold;
+  }
+</style>
+{% endblock css %}
+
+{% block main %}
+<body class="bodyy">
+  <div class="container">
+    <h2 class="h2">Добавить блюдо</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="form-section">
+        <h3>Информация о блюде</h3>
+        {{ form.non_field_errors }}
+        <label>{{ form.type.label }}:</label>
+        {{ form.type }}
+        <label>{{ form.name.label }}:</label>
+        {{ form.name }}
+        <label>{{ form.description.label }}:</label>
+        {{ form.description }}
+      </div>
+
+      <div class="form-section">
+        <h3>Ингредиенты</h3>
+        <div id="formset-container">
+          {{ formset.management_form }}
+
+          {% for form in formset %}
+          <div class="ingredient-row">
+            <div>{{ form.product }}</div>
+            <div>{{ form.quantity }}</div>
+            <div>{{ form.unit }}</div>
+            <div>{% if form.instance.pk %}{{ form.DELETE }}{% endif %}</div>
+          </div>
+          {% endfor %}
+        </div>
+        <button type="button" id="add-ingredient" class="btn btn-secondary mt-3">+ Добавить ингредиент</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+      <a href="{% url 'add-meal' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+  </div>
+</body>
+{% endblock main %}
+
+{% block js %}
+<script>
+  document.getElementById('add-ingredient').addEventListener('click', function () {
+    const container = document.getElementById('formset-container');
+    const totalForms = document.querySelector('#id_mealingredient_set-TOTAL_FORMS');
+    const currentFormCount = parseInt(totalForms.value);
+
+    const formTemplate = container.querySelector('.ingredient-row');
+    const newForm = formTemplate.cloneNode(true);
+
+    // Очистка полей
+    newForm.querySelectorAll('input, select').forEach(el => {
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        el.checked = false;
+      } else {
+        el.value = '';
+      }
+    });
+
+    // Обновление атрибутов name/id
+    newForm.innerHTML = newForm.innerHTML.replace(/mealingredient_set-(\d)+/g, `mealingredient_set-${currentFormCount}`);
+
+    container.appendChild(newForm);
+    totalForms.value = currentFormCount + 1;
+  });
+</script>
+{% endblock js %}

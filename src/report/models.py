@@ -1,16 +1,9 @@
 from django.db import models
-from meal.models import Meals
+from meal.models import Meal
 
-class MonthlyReports(models.Model):
-    month_year = models.CharField(max_length=7, null=True, blank=True)
-    total_served = models.IntegerField(null=True, blank=True)
-    total_possible = models.IntegerField(null=True, blank=True)
-    difference_percent = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    generated_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return 
-    
+
+
 # class WeeklyMealReport(models.Model):
 #     start_date = models.DateField()  
 #     end_date = models.DateField()    
@@ -43,3 +36,4 @@ class MonthlyReports(models.Model):
 
 #     def __str__(self):
 #         return f"{self.get_meal_type_display()} - {self.date}"
+
