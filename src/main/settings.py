@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'report',
     'service',
     'user',
+    'children',
 ]
 
 MIDDLEWARE = [

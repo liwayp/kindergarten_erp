@@ -14,9 +14,11 @@ class Meal(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     created_by = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, blank=True)
+    products = models.ManyToManyField(Products, related_name='meals')
 
     def __str__(self):
         return self.name
+
 
 
 class MealIngredient(models.Model):
@@ -27,3 +29,6 @@ class MealIngredient(models.Model):
 
     def __str__(self):
         return self.product.name
+
+
+

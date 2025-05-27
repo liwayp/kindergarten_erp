@@ -34,7 +34,7 @@
                       <td>{{ product.unit }} {{ product.minimum_threshold }}</td>
                       <td>
                         <a href="{%url 'product-edit' pk=product.id %}" class="btn btn-warning">Edit</a>
-                        <a href="{%url 'product-delete' pk=product.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delite</a>
+                        <button href="{%url 'product-delete' pk=product.id%}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delite</button>
                       </td>
                     </tr>
                     {% endfor %}
@@ -47,3 +47,5 @@
     </div>
   </section>
 {% endblock main %}
+
+

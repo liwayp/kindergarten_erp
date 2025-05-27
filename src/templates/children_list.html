@@ -1,0 +1,86 @@
+
+{% extends 'base.html' %}
+
+{% block css %}
+    {% comment %} <style>
+
+        body {
+            background: #f0f4f8;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0069d9;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .note {
+            font-size: 0.9em;
+            color: #999;
+            margin-top: 10px;
+        }
+    </style> {% endcomment %}
+
+    </style>
+    {% endblock css %}
+
+{% block main%}
+<h2>История регистрации детей</h2>
+
+<table style="width:100%; border-collapse: collapse; margin-top: 20px;">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th style="padding: 10px; border: 1px solid #ccc;">Имя ребёнка</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Возраст</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Email родителя</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Password</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for child in children %}
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ccc;">{{ child.name }}</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">{{ child.age }}</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">{{ child.parent.email }}</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">{{ child.raw_password }}</td>
+            <td style="padding: 10px; border: 1px solid #ccc;"><button type="button" class="btn btn-warning" >Edit</button><button type="button" class="btn btn-danger">Delete</button></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" style="padding: 10px; border: 1px solid #ccc;">Нет зарегистрированных детей.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock main %}

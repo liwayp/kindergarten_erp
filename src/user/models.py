@@ -17,6 +17,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, name, password, **extra_fields)
 
+
 class Users(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [
         ('admin', 'admin'),
@@ -32,8 +33,6 @@ class Users(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-
-    groups = models.ManyToManyField(Group, related_name='customuser_groups', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='customuser_permissions', blank=True)
 
     objects = CustomUserManager()

@@ -1,0 +1,5 @@
+<form method="post" action="{% url 'edit-meal' meal.id %}" data-id="{{ meal.id }}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
