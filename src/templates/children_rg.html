@@ -95,10 +95,10 @@
 {% block main%}
 <div class='bodyy'>
 <div class="container">
-    <h2>Регистрация ребёнка</h2>
+    <h2>Child registration</h2>
 
     {% if success %}
-        <div class="success">Ребёнок успешно зарегистрирован!</div>
+        <div class="success">The child has been successfully registered!</div>
     {% endif %}
 
     <form method="post">
@@ -118,9 +118,9 @@
 
     {% if parent_credentials %}
         <div class="credentials">
-            <h4>Учётные данные родителя:</h4>
+            <h4>Parent credentials:</h4>
             <p><strong>Email:</strong> {{ parent_credentials.email }}</p>
-            <p><strong>Пароль:</strong> {{ parent_credentials.password }}</p>
+            <p><strong>Password:</strong> {{ parent_credentials.password }}</p>
         </div>
     {% endif %}
 </div>

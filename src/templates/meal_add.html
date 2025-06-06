@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+  .bodyy {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f7f7f7;
+    padding: 40px;
+  }
+  .container {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    padding: 60px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  .h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+    color: #444;
+  }
+  input[type="text"],
+  textarea,
+  select,
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 14px;
+  }
+  .ingredient-set {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+  }
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .btn-secondary {
+    background-color: #ccc;
+    color: black;
+    margin-left: 10px;
+  }
+  .form-section {
+    margin-bottom: 40px;
+  }
+</style>
+{% endblock css %}
+
+{% block main %}
+<body class="bodyy">
+  <div class="container">
+    <h2 class="h2">Add a dish</h2>
+    <form method="post" id="meal-form">
+      {% csrf_token %}
+
+      <div class="form-section">
+        <h3>Information about the dish</h3>
+        {{ form.non_field_errors }}
+
+        <label>{{ form.type.label }}:</label>
+        {{ form.type }}
+
+        <label>{{ form.name.label }}:</label>
+        {{ form.name }}
+
+        <label>{{ form.description.label }}:</label>
+        {{ form.description }}
+      </div>
+
+      <div class="form-section">
+        <h3>Ingredients</h3>
+        {{ formset.management_form }}
+        <div id="formset-container">
+          {% for form in formset %}
+            <div class="ingredient-set">
+              {{ form.id }}
+              <label>{{ form.product.label }}</label>
+              {{ form.product }}
+
+              <label>{{ form.quantity.label }}</label>
+              {{ form.quantity }}
+
+
+              {% if form.instance.pk %}
+                {{ form.DELETE }}
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <button type="button" id="add-ingredient" class="btn btn-secondary mt-3">+ Add ingredient</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{% url 'meal-list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</body>
+{% endblock main %}
+
+{% block js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const formsetContainer = document.getElementById("formset-container");
+    const addIngredientBtn = document.getElementById("add-ingredient");
+    const totalForms = document.getElementById("id_mealingredient_set-TOTAL_FORMS");
+
+    addIngredientBtn.addEventListener("click", function () {
+      const currentFormCount = parseInt(totalForms.value);
+      const emptyForm = formsetContainer.querySelector(".ingredient-set").cloneNode(true);
+
+      emptyForm.querySelectorAll("input, select").forEach(input => {
+        const name = input.getAttribute("name").replace(/-\d+-/, `-${currentFormCount}-`);
+        const id = input.getAttribute("id").replace(/-\d+-/, `-${currentFormCount}-`);
+        input.setAttribute("name", name);
+        input.setAttribute("id", id);
+        if (input.type !== "hidden") input.value = "";
+      });
+
+      formsetContainer.appendChild(emptyForm);
+      totalForms.value = currentFormCount + 1;
+    });
+  });
+</script>
+{% endblock js %}

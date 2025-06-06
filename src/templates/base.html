@@ -196,19 +196,19 @@
 
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{%url 'dashboard' %}" class="nav-link">
                             <i class="bi bi-bar-chart-fill"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'add_employee' %}" class="nav-link">
                             <i class="bi bi-person-badge-fill"></i>
-                            <p>Users</p>
+                            <p>Employee</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'group_list' %}" class="nav-link">
                             <i class="bi bi-people-fill"></i>
                             <p>Group</p>
                         </a>
@@ -218,12 +218,6 @@
                             <i class="bi bi-people-fill"></i>
                             <p>Children</p>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="bi bi-basket"></i>
-                            <p>Ingredient</p>
-                        </a>
                     </li><li class="nav-item">
                         <a href="{% url 'meal-list'%}" class="nav-link">
                             <i class="bi bi-cup-straw"></i>
@@ -231,13 +225,13 @@
                         </a>
                     </li>
                     </li><li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'portion-list'%} " class="nav-link">
                             <i class="bi bi-fork-knife"></i>
                             <p>Serve</p>
                         </a>
                     </li>
                     </li><li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'product-notification'%}" class="nav-link">
                             <i class="bi bi-bell-fill"></i>
                             <p>Notification</p>
                         </a>
@@ -247,9 +241,18 @@
                             <i class="bi bi-card-checklist"></i>
                             <p>Products</p>
                         </a>
-
-
-
+                    <li class="nav-item">
+                        <a href="{% url 'employee-list'%}" class="nav-link">
+                            <i class="bi bi-card-checklist"></i>
+                            <p>Employee List</p>
+                        </a>
+                        </a>
+                    <li class="nav-item">
+                        <a href="{% url 'logout'%}" class="nav-link">
+                            <i class="bi bi-card-checklist"></i>
+                            <p>Log out</p>
+                        </a>
+  
 
 
                 </ul>
@@ -313,6 +316,7 @@
 <script src="{% static 'js/adminlte.js' %}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'js/demo.js' %}"></script>
+
 {% block js %}
 {% endblock js %}
 </body>

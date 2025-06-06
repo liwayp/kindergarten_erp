@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Weekly menu</h2>
+  <div class="row">
+    {% for day, meals in weekly_menus.items %}
+      <div class="col-md-6 mb-4">
+        <div class="card">
+          <div class="card-header">
+            <strong>
+              {% if day == 'mon' %}Monday
+              {% elif day == 'tue' %}Tuesday
+              {% elif day == 'wed' %}Wednesday
+              {% elif day == 'thu' %}Thursday
+              {% elif day == 'fri' %}Friday
+              {% endif %}
+            </strong>
+          </div>
+          <ul class="list-group list-group-flush">
+            {% for meal in meals %}
+              <li class="list-group-item">{{ meal.name }} - {{ meal.get_type_display }}</li>
+            {% empty %}
+              <li class="list-group-item text-muted">No dishes</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+</html>

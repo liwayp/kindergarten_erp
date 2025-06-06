@@ -1,10 +1,11 @@
 from django.db import models
 from user.models import Users
 from django.utils import timezone
-
+import datetime
 
 class ChildGroup(models.Model):
     name = models.CharField(max_length=100)
+    data = models.DateField( default=datetime.date.today)
 
     def __str__(self):
         return self.name
@@ -21,7 +22,7 @@ class Children(models.Model):
     related_name='children',
     limit_choices_to={'role': 'parents'}
 )
-    group = models.ForeignKey(ChildGroup, on_delete=models.SET_NULL, null=True, blank=True)
+    group = models.ForeignKey(ChildGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='children')
 
     def __str__(self):
         return self.name

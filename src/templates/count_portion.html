@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="container mt-5">
+  <h2>Расчёт продуктов на "{{ meal.name }}"</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label>Количество порций:</label>
+      <input type="number" name="portion_count" min="1" value="{{ portion_count }}" required>
+    </div>
+    <button class="btn btn-primary" type="submit">Calculate and write off products</button>
+  </form>
+
+  
+  <hr>
+
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>For 1 serving</th>
+        {% comment %} <th>Всего на {{ log }} порц.</th> {% endcomment %}
+        <th>Remaining stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in ingredients %}
+      <tr>
+        <td>{{ i.product }}</td>
+        <td>{{ i.quantity }}</td>
+        {% comment %} <td>{{ i. }}</td> {% endcomment %}
+        <td>{{ i.product.minimum_threshold  }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if messages %}
+  <ul class="mt-4">
+    {% for message in messages %}
+      <li class="text-{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block js%}
+
+{% endblock js%}

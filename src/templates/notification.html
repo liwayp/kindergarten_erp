@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container mt-5">
+  <h2 class="mb-4">Notifications on product balances</h2>
+
+  <div class="mb-3">
+    <label for="sortStatus" class="form-label">Sort by status:</label>
+    <select id="sortStatus" class="form-select" style="max-width: 300px;">
+      <option value="Мало">Few</option>
+      <option value="Норма">Norm</option>
+      <option value="Много">Many</option>
+      <option value="all" selected>All</option>
+    </select>
+  </div>
+
+  <table class="table table-bordered" id="productTable">
+    <thead class="table-light">
+      <tr>
+        <th>Name</th>
+        <th>Remainder</th>
+        <th>Unit of measurement</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="productBody">
+      {% for product in products %}
+      <tr data-status="{{ product.status }}">
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.unit }}</td>
+        <td style="color: {{ product.color }};"><strong>{{ product.status }}</strong></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+document.getElementById('sortStatus').addEventListener('change', function () {
+  const selected = this.value;
+  const rows = document.querySelectorAll('#productBody tr');
+
+  rows.forEach(row => {
+    const status = row.getAttribute('data-status');
+    row.style.display = (selected === 'all' || status === selected) ? '' : 'none';
+  });
+});
+</script>
+{% endblock %}

@@ -3,7 +3,7 @@ from .forms import ProductForm
 from .models import Products
 from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url='login')
 def adding_pr(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
@@ -20,7 +20,7 @@ def product_list_view(request):
     return render(request, 'product_list.html', {'products': products})
 
 
-# @login_required
+@login_required(login_url='login')
 def product_edit(request, pk):
     product = get_object_or_404(Products, pk=pk)
     if request.method == 'POST':
@@ -33,8 +33,9 @@ def product_edit(request, pk):
     return render(request, 'editpr.html', {'form': form, 'product': product})
 
 
-# @login_required
+@login_required(login_url='login')
 def product_delete(request, pk):
-    product = get_object_or_404(Products, pk=pk)
+    product = get_object_or_404(Products, id=pk)
     product.delete()
     return redirect('product_list')
+

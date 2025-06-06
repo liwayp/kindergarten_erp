@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block head_css %}
+    {{ block.super }}
+{% endblock head_css %}
+
+
+
+{% block main %}
+<div class="content-wrapper">
+
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Schedule: Children by Age</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="content">
+    <div class="container-fluid">
+      <div class="card card-success">
+        <div class="card-header">
+          <h3 class="card-title">Bar Chart (Children by Age)</h3>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <canvas id="barChart"
+                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;">
+            </canvas>
+          </div>
+        </div>
+      
+      </div>
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock main %}
+
+
+{# ВAdminLTE 3 есть блок scripts или footer_scripts, куда вставляются скрипты #}
+{% block scripts %}
+  {{ block.super }}
+  {# --- Подключаем Chart.js, если он ещё не подключён в base.html --- #}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  {# Наш динамический скрипт: рисует график по данным из контекста #}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Получаем 2 массива из контекста Django: labels и data
+      const labels = {{ labels|safe }};
+      const data = {{ data|safe }};
+
+      // Находим холст по ID
+      const ctx = document.getElementById('barChart').getContext('2d');
+
+      // Настраиваем данные для Chart.js
+      const chartData = {
+        labels: labels,
+        datasets: [{
+          label: 'Количество детей по возрасту',
+          data: data,
+          backgroundColor: 'rgba(60,141,188,0.9)',
+          borderColor: 'rgba(60,141,188,0.8)',
+          borderWidth: 1
+        }]
+      };
+
+      // Опции (можно при желании модифицировать)
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      };
+
+      // Инициализируем бар-чарт
+      new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: chartOptions
+      });
+    });
+  </script>
+{% endblock scripts %}

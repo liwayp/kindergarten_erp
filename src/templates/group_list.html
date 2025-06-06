@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{%block css%}
+<style>
+    .group-container {
+      padding: 2rem;
+    }
+  
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+  
+    .group-header h2 {
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: #333;
+    }
+  
+    .btn-add {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      transition: 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+    }
+  
+    .btn-add:hover {
+      background-color: #0056b3;
+    }
+  
+    .group-card {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transition: 0.3s ease;
+    }
+  
+    .group-card:hover {
+      transform: translateY(-4px);
+    }
+  
+    .group-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+  
+    .group-info {
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
+  
+    .group-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  
+    .btn-edit {
+      background-color: #ffc107;
+      color: black;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+    }
+  
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+    }
+</style>
+{% endblock css%}
+
+{% block main %}
+<div class="group-container">
+  <div class="group-header">
+    <h2>👥 Список Групп</h2>
+    <a href="{% url 'add_group' %}" class="btn-add">+ Add Group</a>
+  </div>
+  <div class="row">
+    {% for group in groups %}
+    <div class="col-md-4">
+      <div class="group-card">
+        <a href="{% url 'group_detail' group.id %}">
+          <div class="group-name">{{ group.name }}</div>
+          <div class="group-info"><strong>Created by:</strong> {{ group.data|default:"—" }}</div>
+        </a>
+        <div class="group-buttons">
+          <a href="{% url 'edit_group' group.id %}" class="btn-edit">Edit</a>
+          <a href="{% url 'delete_group' group.id %}" class="btn-delete" onclick="return confirm('Удалить эту группу?');">Delete</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+      <p>There are no groups available.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

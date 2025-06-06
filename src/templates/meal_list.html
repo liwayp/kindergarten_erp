@@ -72,42 +72,29 @@
 {% block main %}
 
 <div class="meal-list-container">
-    <h2>🍽 Список Блюд</h2>
-    <a href="{% url 'add-meal' %}" class="add-meal-btn">+ Добавить Блюдо</a>
+    <h2>🍽 List of Dishes</h2>
+    <a href="{% url 'add-meal' %}" class="add-meal-btn">+ Add Dish</a>
 
     <div class="meal-grid">
         {% for meal in meals %}
+        <a href="{% url 'count-portion' meal.id %}"> 
         <div class="meal-card" id="meal-{{ meal.id }}">
             <h3>{{ meal.name }}</h3>
-            <p><strong>Тип:</strong> {{ meal.get_type_display }}</p>
+            <p><strong>Type:</strong> {{ meal.get_type_display }}</p>
             {% if meal.description %}
-                <p><strong>Описание:</strong> {{ meal.description }}</p>
+                <p><strong>Description:</strong> {{ meal.description }}</p>
             {% endif %}
-            <p class="created-by">Создано: {{ meal.created_by.name }}</p>
-            <button type="button"
+            <p class="created-by">Created by: {{ meal.created_by.name }}</p></a>
+            <a type="button" href="{% url 'edit-meal' meal.id %}"
                     class="btn btn-warning edit-btn"
                     data-id="{{ meal.id }}">
                 Edit
-            </button>
-            <button type="button" class="btn btn-danger">Delete</button>
+        </a>
+            <a type="button" class="btn btn-danger" href="{% url 'delete-meal' meal.id %}", onclick="return confirm('Are you sure you want to delete this user?')";>Delete</a>
         </div>
         {% endfor %}
     </div>
-</div>
 
-<div class="modal fade" id="editMealModal" tabindex="-1" role="dialog" aria-labelledby="editMealModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Редактировать блюдо</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="modal-form-content">
-      </div>
-    </div>
-  </div>
 </div>
 
 {% endblock main %}
@@ -115,42 +102,50 @@
 
 {%block js%}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const mealId = this.dataset.id;
-                fetch(`/meals/${mealId}/edit/`)
-                    .then(res => res.text())
-                    .then(html => {
-                        document.getElementById('modal-form-content').innerHTML = html;
-                        $('#editMealModal').modal('show');
-                    });
-            });
-        });
-    
-        document.getElementById('modal-form-content').addEventListener('submit', function (e) {
-            if (e.target.tagName === 'FORM') {
-                e.preventDefault();
-                const form = e.target;
-                const mealId = form.dataset.id;
-                const formData = new FormData(form);
-    
-                fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                    },
-                    body: formData
-                })
-                .then(res => res.text())
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const mealId = this.dataset.id;
+            fetch(`/meals/${mealId}/edit/`)
+                .then(response => response.text())
                 .then(html => {
-                    document.querySelector(`#meal-${mealId}`).outerHTML = html;
-                    $('#editMealModal').modal('hide');
+                    document.getElementById('modal-form-content').innerHTML = html;
+                    $('#editMealModal').modal('show');
+
+                    initDynamicForms();
                 });
-            }
         });
     });
+
+    document.getElementById('modal-form-content').addEventListener('submit', function(e) {
+        if (e.target.id === 'meal-edit-form') {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else if (data.errors) {
+                    alert('Ошибки:\n' + JSON.stringify(data.errors));
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+
+    function initDynamicForms() {
+    }
+});
     </script>
 {%endblock js%}
 

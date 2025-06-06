@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="container py-5">
+  <h2>Add new group</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="name" class="form-label">Group name</label>
+      <input type="text" name="name" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'group_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

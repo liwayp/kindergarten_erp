@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded-4 border-0">
+                <div class="card-header bg-primary text-white rounded-top-4">
+                    <h4 class="mb-0">Editing child</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label">Child's name</label>
+                            <input type="text" name="name" class="form-control" value="{{ child.name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" name="age" class="form-control" value="{{ child.age }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Parent's email</label>
+                            <input type="email" name="email" class="form-control" value="{{ child.parent.email }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Parent password</label>
+                            <input type="text" name="password" class="form-control" value="{{ child.raw_password }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date of creation</label>
+                            <input type="datetime-local" name="created" class="form-control"
+                                   value="{{ child.created|date:'Y-m-d\\TH:i' }}">
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'children_list' %}" class="btn btn-secondary">Back</a>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

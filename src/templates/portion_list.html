@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="container mt-5">
+  <h2>History of cooking</h2>
+  <table class="table table-striped mt-4">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Dish</th>
+        <th>Portions</th>
+        <th>Ingredients</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.user }}</td>
+        <td>{{ log.meal.name }}</td>
+        <td>{{ log.portion_count }}</td>
+        <td>
+          <ul>
+            {% for i in log.ingredients.all %}
+            <li>{{ i.product.name }} — {{ i.quantity_used }} {{ i.unit }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+        <td>{{ log.created_at|date:"d.m.Y H:i" }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No data</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

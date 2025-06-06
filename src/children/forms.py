@@ -13,3 +13,8 @@ class ChildForm(forms.ModelForm):
             'group': forms.Select(attrs={'class': 'form-control'}),
             'parent_email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = ChildGroup
+        fields = ['name']
